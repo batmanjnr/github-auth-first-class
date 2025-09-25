@@ -1,56 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .dot-loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+    }
+
+    .dot-loader span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 4px;
+      background: #000;
+      border-radius: 50%;
+      animation: dotFlashing 1s infinite linear alternate;
+    }
+
+    .dot-loader span:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .dot-loader span:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes dotFlashing {
+      0% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.2;
+      }
+    }
+  </style>
 </head>
-<body>
-    <h1>DASHY</h1>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1" id="display">
+        <div id="loader" class="dot-loader">
+          <span></span><span></span><span></span>
+        </div>
+      </span>
+      <div class="ms-auto">
+        <button onclick="checkOut()" class="btn btn-outline-light">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <h1 style="text-align: center;" id="test"> THIS IS A TEST PAGE THANL YOU!!!!</h1>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqy2myKl5OJSneuPk5IgtK3a4cm4hSZBE",
+      authDomain: "github-signin-d92a8.firebaseapp.com",
+      projectId: "github-signin-d92a8",
+      storageBucket: "github-signin-d92a8.firebasestorage.app",
+      messagingSenderId: "319693825208",
+      appId: "1:319693825208:web:d0afaa6e72f1fe489cc04d"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+
+        display.innerHTML = ""
+        display.innerHTML += `Welcome ${user.email}`
 
 
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getAuth, signInWithPopup, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+      } else {
+        test.innerHTML = "You Have to Sign in <br>Redirecting....."
+        setTimeout(() => {
+          window.location.href = "login.html"
+        }, 1000)
 
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+      }
+    });
+    const checkOut = () => {
+      signOut(auth).then(() => {
+        console.log("bye");
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBqy2myKl5OJSneuPk5IgtK3a4cm4hSZBE",
-    authDomain: "github-signin-d92a8.firebaseapp.com",
-    projectId: "github-signin-d92a8",
-    storageBucket: "github-signin-d92a8.firebasestorage.app",
-    messagingSenderId: "319693825208",
-    appId: "1:319693825208:web:d0afaa6e72f1fe489cc04d"
-  };
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const provider = new GithubAuthProvider();
-  const auth = getAuth();
-const loginGit=()=>{
-signInWithPopup(auth, provider)
-  .then((result) => {
-    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-   
-    const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    console.log(user);
-    
-    // ...
-  }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode);
-    console.log(errorMessage);
-    
-    
+      }).catch((error) => {
+        console.log(error);
 
-  });
-}
-   window.loginGit = loginGit
-</script>
+      });
+
+    }
+    window.checkOut = checkOut
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
