@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>DASHY</h1>
+
+
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInWithPopup, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqy2myKl5OJSneuPk5IgtK3a4cm4hSZBE",
+    authDomain: "github-signin-d92a8.firebaseapp.com",
+    projectId: "github-signin-d92a8",
+    storageBucket: "github-signin-d92a8.firebasestorage.app",
+    messagingSenderId: "319693825208",
+    appId: "1:319693825208:web:d0afaa6e72f1fe489cc04d"
+  };
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const provider = new GithubAuthProvider();
+  const auth = getAuth();
+const loginGit=()=>{
+signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+   
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    console.log(user);
+    
+    // ...
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode);
+    console.log(errorMessage);
+    
+    
+
+  });
+}
+   window.loginGit = loginGit
+</script>
+</body>
+</html>
